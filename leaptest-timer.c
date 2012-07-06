@@ -59,24 +59,18 @@ int  main(void)
 
 	clock_gettime(clock_type, &ts);
 	now = then = ts.tv_sec;
-	while(now - then < 30){
+	while(now - then < 10){
 		struct timespec target, diff, rem;
 		rem.tv_sec = 0;
 		rem.tv_nsec = 0;
 
-		if (flag == TIMER_ABSTIME)
-			target = timespec_add(ts, sleeptime);
-		else
-			target = timespec_add(rem, sleeptime);
+		target = timespec_add(ts, sleeptime);
 
-		clock_nanosleep(clock_type, flag, &target, &rem);
+		clock_nanosleep(clock_type, TIMER_ABSTIME, &target, &rem);
 		clock_gettime(clock_type, &ts);
 
 		diff = timespec_diff(ts, target);
-		printf("now: %ld:%ld  diff: %ld:%ld rem: %ld:%ld\n",
-				ts.tv_sec, ts.tv_nsec,
-				diff.tv_sec, diff.tv_nsec,
-				rem.tv_sec, rem.tv_nsec);
+		printf("diff: %Lf\n", diff.tv_sec + ((long double)0.000000001 * diff.tv_nsec));
 		now = ts.tv_sec;
 	}
 

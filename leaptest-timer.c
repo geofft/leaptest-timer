@@ -50,39 +50,12 @@ struct timespec timespec_diff(struct timespec a, struct timespec b)
 
 int  main(void)
 {
-	struct timeval tv;
-	struct timex tx;
-	int i, inconsistent;
 	long now, then;
 	struct timespec ts;
 
 	int clock_type 		= CLOCK_REALTIME;
 	int flag 		= TIMER_ABSTIME;
 	long long sleeptime	= NSEC_PER_SEC/2;
-
-
-	/* clear TIME_WAIT */
-	tx.modes = ADJ_STATUS;
-	tx.status = 0;
-	adjtimex(&tx);
-
-	sleep(2);
-
-	/* Get the current time */
-	gettimeofday(&tv, NULL);
-
-	/* Calculate the next leap second */
-	tv.tv_sec += 86400 - tv.tv_sec % 86400;
-
-	/* Set the time to be 10 seconds from that time */
-	tv.tv_sec -= 10;
-	settimeofday(&tv, NULL);
-
-
-	/* Set the leap second insert flag */
-	tx.modes = ADJ_STATUS;
-	tx.status = STA_INS;
-	adjtimex(&tx);
 
 	clock_gettime(clock_type, &ts);
 	now = then = ts.tv_sec;
@@ -106,11 +79,6 @@ int  main(void)
 				rem.tv_sec, rem.tv_nsec);
 		now = ts.tv_sec;
 	}
-
-	/* clear TIME_WAIT */
-	tx.modes = ADJ_STATUS;
-	tx.status = 0;
-	adjtimex(&tx);
 
 	return 0;
 }

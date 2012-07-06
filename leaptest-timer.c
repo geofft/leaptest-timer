@@ -1,6 +1,8 @@
 /* Leap second timer test
  *              by: john stultz (johnstul@us.ibm.com)
  *              (C) Copyright IBM 2012
+ *              Trimmed down by Geoffrey Thomas <gthomas@mokafive.com>
+ *              (C) Copyright 2012  moka5, Inc.
  *              Licensed under the GPL
  */
 
